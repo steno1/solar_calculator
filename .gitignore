@@ -1,0 +1,30 @@
+# Node.js modules
+node_modules/
+
+# Environment variables
+.env
+
+# Log files
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+dist/
+build/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor directories
+.vscode/
+.idea/
+*.swp
+
+# Coverage directory used by testing tools
+coverage/
+
+# npm package lock file (if you want to ignore)
+# package-lock.json
