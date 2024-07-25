@@ -17,6 +17,10 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser()); // Use cookie-parser middleware
 
+// Middleware for URL-encoded data
+
+app.use(express.urlencoded({ extended: true }));
+
 // Routes
 app.use('/api/users', userRoutes);
 

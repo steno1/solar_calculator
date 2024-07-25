@@ -1,6 +1,6 @@
 import User from '../model/userModel.js';
 import asyncHandler from 'express-async-handler';
-import  generateToken  from '../utils/generateToken.js'; // Import your generateToken function
+import generateToken from '../utils/generateToken.js'; // Import your generateToken function
 
 // Register a new user
 const registerUser = asyncHandler(async (req, res) => {
@@ -67,6 +67,16 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Logout User & Clear Cookie
+const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: 'Logged out successfully' });
+});
+
 // Get user profile
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -109,4 +119,23 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, getUserProfile, updateUserProfile };
+// Get all users
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+// Delete user
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, getAllUsers, deleteUser };
