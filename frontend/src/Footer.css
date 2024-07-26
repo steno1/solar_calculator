@@ -1,0 +1,9 @@
+/* Footer styles */
+.footer {
+    background-color: #003300; /* Dark green background for the footer */
+    color: gray; 
+    padding: 20px 0; /* Padding for better spacing */
+    text-align: center; /* Center align text */
+    width: 100%; /* Full width */
+    margin-top: 40px !important; /* Adjust footer position with higher priority */
+}

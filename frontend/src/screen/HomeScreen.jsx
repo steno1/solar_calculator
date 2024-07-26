@@ -1,31 +1,59 @@
+// Import custom styles for the HomeScreen component
+
 import '../styles.css';
 
 import { Button, Card, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { FaBatteryHalf, FaChargingStation, FaCogs, FaSolarPanel } from 'react-icons/fa';
 import React, { useState } from 'react';
 
-import { useCalculateLoadAnalysisMutation } from '../slices/loadApiSlice';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import ToastMessage from '../components/Toast';
+import { useCalculateLoadAnalysisMutation } from '../slices/loadApiSlice'; // Import the custom hook for load analysis mutation
 
 const HomeScreen = () => {
+  // State to control the visibility of the Load Analysis Modal
   const [showLoadAnalysisModal, setShowLoadAnalysisModal] = useState(false);
+  // State to control the visibility of the Toast message
+  const [showToast, setShowToast] = useState(false);
+  // State to store the message to be displayed in the Toast
+  const [toastMessage, setToastMessage] = useState('');
+  // State to store the variant of the Toast message (e.g., success, danger)
+  const [toastVariant, setToastVariant] = useState('info');
+  
+  // Custom hook to handle load analysis mutation, destructuring relevant data and statuses
   const [calculateLoadAnalysis, { data, isLoading, isError, error }] = useCalculateLoadAnalysisMutation();
+  
+  // State to store the list of appliances with their properties
   const [appliances, setAppliances] = useState([
     { name: '', quantity: 1, power: 0, powerFactor: 1, hoursOfUse: 1 }
   ]);
 
+  // Function to handle the load analysis calculation
   const handleLoadAnalysis = async () => {
     try {
+      // Perform the load analysis calculation and get the result
       const result = await calculateLoadAnalysis({ appliances }).unwrap();
+      // Set the Toast message and variant to display success
+      setToastMessage(result.message);
+      setToastVariant('success');
+      setShowToast(true);
       console.log(result);
     } catch (err) {
+      // Handle any errors and display the error message in the Toast
+      setToastMessage(err.message);
+      setToastVariant('danger');
+      setShowToast(true);
       console.error('Failed to fetch:', err);
     }
   };
 
+  // Function to add a new appliance to the list
   const handleAddAppliance = () => {
     setAppliances([...appliances, { name: '', quantity: 1, power: 0, powerFactor: 1, hoursOfUse: 1 }]);
   };
 
+  // Function to handle changes in appliance properties
   const handleChangeAppliance = (index, event) => {
     const { name, value } = event.target;
     const newAppliances = [...appliances];
@@ -34,24 +62,24 @@ const HomeScreen = () => {
   };
 
   return (
-    <div className="home-background"> {/* Apply the background color to the full screen */}
-      <Container className="mt-5">
-        <h1 className="text-center mb-4">Solar PV Calculator</h1>
-        <Row className="justify-content-center">
+    <div className="home-background"> {/* Apply background styling */}
+      <Container className="mt-5"> {/* Center the content with margin-top */}
+        <h1 className="text-center mb-4">Princeley Solar Calculator</h1> {/* Page title */}
+        <Row className="justify-content-center"> {/* Center the cards in a row */}
           {/* Load Analysis Card */}
           <Col md={4} className="mb-4">
-            <Card className="card-style card-dark">
+            <Card className="card-style card-dark"> {/* Apply custom card styling */}
               <Card.Body>
-                <Card.Title className="text-center">Load Analysis</Card.Title>
+                <Card.Title className="text-center">Load Analysis</Card.Title> {/* Card title */}
                 <Button variant="primary" className="button-style" onClick={() => setShowLoadAnalysisModal(true)}>
-                  Analyze
+                  Analyze {/* Button to open Load Analysis Modal */}
                 </Button>
-                {isLoading && <p className="text-center">Loading...</p>}
-                {isError && <p className="text-center">Error: {error.message}</p>}
+                {isLoading && <Loader />} {/* Show loader if data is loading */}
+                {isError && <Message variant="danger">{error.message}</Message>} {/* Show error message if there's an error */}
                 {data && (
                   <div className="text-center">
-                    <p>Total Apparent Power: {data.totalApparentPower} VA</p>
-                    <p>Total Energy Demand: {data.totalEnergyDemand} VA·h</p>
+                    <p>Total Apparent Power: {parseFloat(data.totalApparentPower).toFixed(2)} VA</p> {/* Display total apparent power */}
+                    <p>Total Energy Demand: {parseFloat(data.totalEnergyDemand).toFixed(2)} VA·h</p> {/* Display total energy demand */}
                   </div>
                 )}
               </Card.Body>
@@ -62,9 +90,9 @@ const HomeScreen = () => {
           <Col md={4} className="mb-4">
             <Card className="card-style card-dark">
               <Card.Body>
-                <Card.Title className="text-center">Panel Size Sizing</Card.Title>
+                <Card.Title className="text-center">Panel Size Sizing</Card.Title> {/* Card title */}
                 <Button variant="primary" className="button-style" href="#panel-sizing">
-                  <FaSolarPanel size={20} className="mr-2"/> Panel Sizing
+                  <FaSolarPanel size={20} className="mr-2"/> Panel Sizing {/* Button to navigate to panel sizing section */}
                 </Button>
               </Card.Body>
             </Card>
@@ -74,9 +102,9 @@ const HomeScreen = () => {
           <Col md={4} className="mb-4">
             <Card className="card-style card-dark">
               <Card.Body>
-                <Card.Title className="text-center">Battery Sizing</Card.Title>
+                <Card.Title className="text-center">Battery Sizing</Card.Title> {/* Card title */}
                 <Button variant="primary" className="button-style" href="#battery-sizing">
-                  <FaBatteryHalf size={20} className="mr-2"/> Battery Sizing
+                  <FaBatteryHalf size={20} className="mr-2"/> Battery Sizing {/* Button to navigate to battery sizing section */}
                 </Button>
               </Card.Body>
             </Card>
@@ -86,9 +114,9 @@ const HomeScreen = () => {
           <Col md={4} className="mb-4">
             <Card className="card-style card-dark">
               <Card.Body>
-                <Card.Title className="text-center">Charge Controller Sizing</Card.Title>
+                <Card.Title className="text-center">Charge Controller Sizing</Card.Title> {/* Card title */}
                 <Button variant="primary" className="button-style" href="#charge-controller-sizing">
-                  <FaChargingStation size={20} className="mr-2"/> Charge Controller Sizing
+                  <FaChargingStation size={20} className="mr-2"/> Charge Controller Sizing {/* Button to navigate to charge controller sizing section */}
                 </Button>
               </Card.Body>
             </Card>
@@ -98,9 +126,9 @@ const HomeScreen = () => {
           <Col md={4} className="mb-4">
             <Card className="card-style card-dark">
               <Card.Body>
-                <Card.Title className="text-center">Inverter Sizing</Card.Title>
+                <Card.Title className="text-center">Inverter Sizing</Card.Title> {/* Card title */}
                 <Button variant="primary" className="button-style" href="#inverter-sizing">
-                  <FaCogs size={20} className="mr-2"/> Inverter Sizing
+                  <FaCogs size={20} className="mr-2"/> Inverter Sizing {/* Button to navigate to inverter sizing section */}
                 </Button>
               </Card.Body>
             </Card>
@@ -108,12 +136,12 @@ const HomeScreen = () => {
         </Row>
 
         {/* Load Analysis Modal */}
-        <Modal show={showLoadAnalysisModal} onHide={() => setShowLoadAnalysisModal(false)}>
+        <Modal show={showLoadAnalysisModal} onHide={() => setShowLoadAnalysisModal(false)}> {/* Modal for Load Analysis */}
           <Modal.Header closeButton>
-            <Modal.Title>Load Analysis</Modal.Title>
+            <Modal.Title>Load Analysis</Modal.Title> {/* Modal title */}
           </Modal.Header>
           <Modal.Body>
-            <Form className="form-dark">
+            <Form className="form-dark"> {/* Form to input appliance details */}
               {appliances.map((appliance, index) => (
                 <div key={index} className="mb-4">
                   <Form.Group className="margin-bottom">
@@ -171,20 +199,18 @@ const HomeScreen = () => {
               ))}
               <div className="d-flex justify-content-between">
                 <Button variant="secondary" className="modal-button" onClick={handleAddAppliance}>Add Another Appliance</Button>
-               
-               
-         <Button variant="primary"   style={{ marginLeft: '10px' }}
-         className="calculate-button" onClick={handleLoadAnalysis}>Calculate</Button>
+                <Button variant="primary" style={{ marginLeft: '10px' }} className="calculate-button" onClick={handleLoadAnalysis}>Calculate</Button>
               </div>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowLoadAnalysisModal(false)}>Close</Button>
+            <Button variant="secondary" onClick={() => setShowLoadAnalysisModal(false)}>Close</Button> {/* Close button */}
           </Modal.Footer>
+          <ToastMessage show={showToast} onClose={() => setShowToast(false)} message={toastMessage} variant={toastVariant} /> {/* Toast message */}
         </Modal>
       </Container>
     </div>
   );
 };
 
-export default HomeScreen;
+export default HomeScreen; // Export the HomeScreen component

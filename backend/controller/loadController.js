@@ -29,6 +29,10 @@ const calculateLoadAnalysis = asyncHandler(async (req, res) => {
     totalEnergyDemand += energyDemand;
   });
 
+  // Format to two decimal places
+  totalApparentPower = totalApparentPower.toFixed(2);
+  totalEnergyDemand = totalEnergyDemand.toFixed(2);
+
   // Create a new LoadAnalysis document
   const loadAnalysis = await LoadAnalysis.create({
     appliances,
@@ -37,8 +41,9 @@ const calculateLoadAnalysis = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-    message: 'Load analysis saved successfully',
-    loadAnalysis
+    message: 'Load analysis saved successfully. Check your Home-Screen',
+    totalApparentPower,
+    totalEnergyDemand
   });
 });
 

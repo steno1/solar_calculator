@@ -1,0 +1,38 @@
+/* Add space below the header */
+header {
+    margin-bottom: 20px; /* Optional: Adds space below the header */
+  }
+  
+  /* Ensure items in Nav are aligned to the right */
+  .Navbar .ml-auto {
+    margin-left: auto; /* Ensures items in Nav are aligned to the right */
+  }
+  
+  /* Ensure the navbar background and text colors */
+  .custom-navbar {
+    background-color: white; /* White background */
+    color: black; /* Black text color */
+  }
+  
+  /* Ensure nav links are black */
+  .custom-navbar .navbar-nav .nav-link {
+    color: black; /* Ensure nav links are black */
+  }
+  
+  /* Adjust the logo size if necessary */
+  .custom-navbar .navbar-brand img {
+    height: 30px; /* Adjust logo size if necessary */
+  }
+  
+  /* Add margin to the dropdown menu items */
+  .custom-navbar .dropdown-menu {
+    margin-right: 10px; /* Add margin to the right to keep space from the edge */
+   
+    padding: 5px; /* Add padding inside the dropdown */
+  }
+  
+  /* Add padding to the dropdown items to ensure they don’t touch the edges */
+  .custom-navbar .dropdown-item {
+    padding: 5px 10px; /* Add padding to the items */
+  }
+  

@@ -1,10 +1,11 @@
+import { LOAD_ANALYSIS_URL } from '../constant';
 import apiSlice from './apiSlice';
 
 export const loadApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     calculateLoadAnalysis: builder.mutation({
       query: (data) => ({
-        url: '/api/load-analysis',
+        url: `${LOAD_ANALYSIS_URL}/calculate`,
         method: 'POST',
         body: data
       }),

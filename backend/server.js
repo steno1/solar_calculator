@@ -4,6 +4,7 @@ import connectDB from './config/db.js'; // Adjust the path if necessary
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv'; // Import dotenv
 import express from 'express';
+import loadAnalysisRoutes from './Routes/LoadRoutes.js';
 import userRoutes from './Routes/userRoutes.js';
 
 dotenv.config(); // Load environment variables from .env file
@@ -23,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/users', userRoutes);
+
+// Use the routes
+app.use('/api/loads', loadAnalysisRoutes);
 
 //notfound handling middleware
 app.use(notFound);
