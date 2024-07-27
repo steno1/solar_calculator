@@ -1,8 +1,8 @@
-import Footer from './components/Footer';
 import Header from './components/Header';
 import { Outlet } from 'react-router-dom'; // Import Outlet from react-router-dom
-// src/App.js
 import React from 'react';
+import { ToastContainer } from 'react-toastify'; // Import ToastContainer
+// import Footer from './components/Footer'; // Uncomment if you have a Footer component
 
 function App() {
   return (
@@ -11,7 +11,8 @@ function App() {
       <main className="App-main"> {/* Use <main> for main content */}
         <Outlet /> {/* Render nested routes here */}
       </main>
-      <Footer /> {/* Render Footer at the bottom */}
+      {/* <Footer /> */} {/* Render Footer at the bottom */}
+      <ToastContainer /> {/* Add ToastContainer for toasts */}
     </div>
   );
 }

@@ -1,18 +1,27 @@
-import { deleteUser, getAllUsers, loginUser, logoutUser, registerUser } from '../controller/userController.js'; // Import controller functions for handling user routes
+import {
+  deleteUser,
+  getAllUsers,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+} from '../controller/userController.js';
 
-import express from 'express'; // Import express for creating the router
+import express from 'express';
+import { protect } from '../middleWare/authMiddleWare.js';
 
-const router = express.Router(); // Create a new express router instance
+const router = express.Router();
 
 // Route to handle user registration
-router.route('/').post(registerUser);
- // POST request to '/api/users/' calls the registerUser function
+router.route('/').post(registerUser); // POST request to '/api/users/' calls the registerUser function
 
-// Route to handle user login
-router.post('/login', loginUser); 
-router.post('/logout', logoutUser); 
-router.route('/').get(getAllUsers); 
+// Protected route to get the user's profile and update it
+router.route('/profile').get(protect, getUserProfile)  // Requires authentication
+.put(protect, updateUserProfile); // Requires authentication
+
+// Route to get all users (typically should be protected)
+router.route('/all').get(protect, getAllUsers); // Requires authentication
 
 // Route to delete a user
-router.route('/:id').delete(deleteUser); 
-export default router; 
+router.route('/:id').delete(protect, deleteUser); // Requires authentication
+
+export default router;

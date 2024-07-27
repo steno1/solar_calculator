@@ -1,16 +1,29 @@
 import '../styles.css';
-import "../Header.css"
+import "../Header.css";
 
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import React from 'react';
+import { logout } from '../slices/authSlice'; // Import the logout action
 import myLogo from '../image/myLogo.webp';
+import { useLogoutMutation } from '../slices/UserApiSlice'; // Import the logout mutation hook
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Header = () => {
-  const user = true; // Placeholder for user authentication state
+  const [logoutUser] = useLogoutMutation(); // Initialize logout mutation
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
+  const { userInfo } = useSelector((state) => state.auth); // Access userInfo from the Redux store
 
-  const handleLogout = () => {
-    console.log("Logged out"); // Replace with actual logout functionality
+  const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap(); // Call the logout API
+      dispatch(logout()); // Dispatch the logout action
+      navigate('/login'); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   return (
@@ -29,9 +42,9 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto"> {/* Use ms-auto for Bootstrap 5 */}
-              {user ? (
-                <NavDropdown title="Profile" id="username">
-                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                 {/*<NavDropdown.Item href="/profile">Profile</NavDropdown.Item> */} 
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (

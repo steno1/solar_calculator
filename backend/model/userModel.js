@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false, // Default value is false (not an admin)
   },
-});
+}, { collection: 'users' }); // Explicitly set the collection name
 
 // Method to compare entered password with hashed password
 userSchema.methods.matchPassword = async function (enteredPassword) {

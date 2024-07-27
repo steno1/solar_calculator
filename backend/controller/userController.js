@@ -20,6 +20,9 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   });
 
+  // Debugging logs
+  console.log('New User Created:', user);
+
   if (user) {
     const token = generateToken(user._id);
 
@@ -46,6 +49,16 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
+
+  // Debugging logs
+  console.log('User:', user);
+  if (user) {
+    console.log('Stored Password Hash:', user.password);
+    console.log('Password Match:', await user.matchPassword(password));
+  } else {
+    console.log('User not found');
+  }
+
   if (user && (await user.matchPassword(password))) {
     const token = generateToken(user._id);
 
@@ -76,17 +89,14 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: 'Logged out successfully' });
 });
-
 // Get user profile
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
   if (user) {
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
     });
   } else {
     res.status(404);
@@ -97,21 +107,19 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // Update user profile
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
   if (user) {
-    const { name, email, password } = req.body;
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
 
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (password) user.password = password;
+    if (req.body.password) {
+      user.password = req.body.password; // Ensure hashing in a real-world scenario
+    }
 
     const updatedUser = await user.save();
-
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
     });
   } else {
     res.status(404);

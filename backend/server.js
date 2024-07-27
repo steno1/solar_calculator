@@ -1,40 +1,30 @@
-import { errorHandler, notFound } from './middleWare/errorMiddleWare.js';
-
-import connectDB from './config/db.js'; // Adjust the path if necessary
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv'; // Import dotenv
+import LoadRoutes from './Routes/LoadRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import connectDB from './config/db.js'; // Ensure this path is correct
+import dotenv from 'dotenv';
 import express from 'express';
-import loadAnalysisRoutes from './Routes/LoadRoutes.js';
-import userRoutes from './Routes/userRoutes.js';
+import mongoose from 'mongoose';
+import userRoutes from './routes/userRoutes.js';
 
-dotenv.config(); // Load environment variables from .env file
+// Load environment variables from .env file
+dotenv.config();
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
-// Connect to the database
-connectDB();
+app.use(express.json()); // Middleware to parse JSON bodies
 
-// Middleware
-app.use(express.json());
-app.use(cookieParser()); // Use cookie-parser middleware
+// Mount the authentication routes
+app.use('/api/auth', authRoutes);
 
-// Middleware for URL-encoded data
-
-app.use(express.urlencoded({ extended: true }));
-
-// Routes
+// Mount the user management routes
 app.use('/api/users', userRoutes);
-
-// Use the routes
-app.use('/api/loads', loadAnalysisRoutes);
-
-//notfound handling middleware
-app.use(notFound);
-
-// Error handling middleware
-app.use(errorHandler);
+app.use('/api/loads', LoadRoutes);
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

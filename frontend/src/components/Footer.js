@@ -12,7 +12,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col className="text-center">
-            <p>Princeley Solar &copy; {new Date().getFullYear()}</p>
+            <p>Princeley Solar Calculator &copy; {new Date().getFullYear()}</p>
             <p>onuprinceley@gmail.com</p> 
           </Col>
         </Row>
