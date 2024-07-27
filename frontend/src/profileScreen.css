@@ -1,0 +1,15 @@
+/* UserProfileScreen.css */
+
+/* Ensure the container takes up full height minus footer */
+.container {
+    flex: 1;
+  }
+  
+  /* Increase container height on mobile devices */
+  @media (max-width: 767px) {
+    .container {
+      min-height: calc(100vh - 60px); /* Adjust height to ensure space for footer */
+      padding-bottom: 20px; /* Add padding to ensure content is not hidden behind the footer */
+    }
+  }
+  

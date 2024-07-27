@@ -39,9 +39,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5 // Keep unused user data for 5 seconds
     }),
 
-
-
-
     updateUserProfile: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/profile`,

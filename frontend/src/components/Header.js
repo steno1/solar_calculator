@@ -44,7 +44,7 @@ const Header = () => {
             <Nav className="ms-auto"> {/* Use ms-auto for Bootstrap 5 */}
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
-                 {/*<NavDropdown.Item href="/profile">Profile</NavDropdown.Item> */} 
+                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>  
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (

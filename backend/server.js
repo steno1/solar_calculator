@@ -1,10 +1,13 @@
+import { errorHandler, notFound } from './middleWare/errorMiddleWare.js';
+
 import LoadRoutes from './Routes/LoadRoutes.js';
-import authRoutes from './routes/authRoutes.js';
+import authRoutes from './Routes/authRoutes.js';
 import connectDB from './config/db.js'; // Ensure this path is correct
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import userRoutes from './routes/userRoutes.js';
+import userRoutes from './Routes/userRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,6 +18,11 @@ connectDB();
 const app = express();
 
 app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware for parsing cookies
+app.use(cookieParser());
+
 
 // Mount the authentication routes
 app.use('/api/auth', authRoutes);
@@ -22,6 +30,9 @@ app.use('/api/auth', authRoutes);
 // Mount the user management routes
 app.use('/api/users', userRoutes);
 app.use('/api/loads', LoadRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

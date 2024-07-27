@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useLoginMutation, useRegisterUserMutation } from '../slices/UserApiSlice'; // Import the login mutation hook
 
+import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { toast } from 'react-toastify'; // Import toast
@@ -38,6 +39,7 @@ const RegisterScreen = () => {
   };
 
   return (
+    <>
     <Container className='py-3'>
       <Row className='justify-content-md-center'>
         <Col xs={12} md={6}>
@@ -101,6 +103,11 @@ const RegisterScreen = () => {
         </Col>
       </Row>
     </Container>
+    <div>
+
+    <Footer className='footer-container' />
+    </div>
+    </>
   );
 };
 

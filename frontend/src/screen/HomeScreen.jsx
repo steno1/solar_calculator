@@ -1,11 +1,13 @@
 // Import custom styles for the HomeScreen component
 
 import '../styles.css';
+import '../footerFix.css'; // Import custom CSS
 
 import { Button, Card, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { FaBatteryHalf, FaChargingStation, FaCogs, FaSolarPanel } from 'react-icons/fa';
 import React, { useState } from 'react';
 
+import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ToastMessage from '../components/Toast';
@@ -62,6 +64,7 @@ const HomeScreen = () => {
   };
 
   return (
+    <>
     <div className="home-background"> {/* Apply background styling */}
       <Container className="mt-5"> {/* Center the content with margin-top */}
         <h1 className="text-center mb-4">Princeley Solar Calculator</h1> {/* Page title */}
@@ -209,7 +212,14 @@ const HomeScreen = () => {
           <ToastMessage show={showToast} onClose={() => setShowToast(false)} message={toastMessage} variant={toastVariant} /> {/* Toast message */}
         </Modal>
       </Container>
+    
     </div>
+   <div>
+
+   <Footer className='footer-container' />
+   </div>
+    </>
+
   );
 };
 
