@@ -1,20 +1,25 @@
-// src/components/Footer.js
+import '../Footer.css'; // Import custom styles for the Footer component
+import '../footerFix.css'; // Import additional custom CSS for footer fixes
 
-import '../Footer.css'; // Create this file for custom styles if not already present
-import '../footerFix.css'; // Import custom CSS
+import { Col, Container, Row } from 'react-bootstrap'; // Import Bootstrap components for layout
 
-import { Col, Container, Row } from 'react-bootstrap';
+import React from 'react'; // Import React
 
-import React from 'react';
-
+// Define the Footer functional component
 const Footer = () => {
   return (
+    // Use a footer HTML element with the class "footer-container" for styling
     <footer className="footer-container">
+      {/* Use Container component from react-bootstrap to wrap the content */}
       <Container>
+        {/* Use Row component to create a horizontal layout */}
         <Row>
+          {/* Use Col component to center the content horizontally */}
           <Col className="text-center">
+            {/* Display the application name and the current year */}
             <p>Princeley Solar Calculator &copy; {new Date().getFullYear()}</p>
-            <p>onuprinceley@gmail.com</p> 
+            {/* Display the contact email */}
+            <p>onuprinceley@gmail.com</p>
           </Col>
         </Row>
       </Container>
@@ -22,4 +27,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer; // Export the Footer component

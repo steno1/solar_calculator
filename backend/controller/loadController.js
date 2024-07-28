@@ -41,7 +41,7 @@ const calculateLoadAnalysis = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-    message: 'Load analysis saved successfully. Check your Home-Screen',
+   
     totalApparentPower,
     totalEnergyDemand
   });

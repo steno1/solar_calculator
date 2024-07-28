@@ -6,6 +6,7 @@ import connectDB from './config/db.js'; // Ensure this path is correct
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
+import inverterRoutes from './Routes/inverterRoutes.js'; // Import the inverter routes
 import mongoose from 'mongoose';
 import userRoutes from './Routes/userRoutes.js';
 
@@ -23,13 +24,17 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware for parsing cookies
 app.use(cookieParser());
 
-
 // Mount the authentication routes
 app.use('/api/auth', authRoutes);
 
 // Mount the user management routes
 app.use('/api/users', userRoutes);
+
+// Mount the load analysis routes
 app.use('/api/loads', LoadRoutes);
+
+// Mount the inverter sizing routes
+app.use('/api/inverter', inverterRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

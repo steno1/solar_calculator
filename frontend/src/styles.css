@@ -173,3 +173,14 @@ body {
         margin-bottom: 10px; /* Add bottom margin to "Add Another Appliance" button */
     }
 }
+/* styles.css */
+
+/* Add this CSS for the modal */
+.modal-content {
+    background-color:rgb(15, 69, 15);
+    color: #fff;
+  }
+  .modal-header .btn-close {
+    filter: invert(1);
+  }
+  

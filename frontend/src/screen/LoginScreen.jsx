@@ -1,3 +1,5 @@
+// Import necessary styles and CSS files
+
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 import '../footerFix.css'; // Import custom CSS
 
@@ -9,29 +11,54 @@ import Footer from '../components/Footer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { setCredentials } from '../slices/authSlice';
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../slices/UserApiSlice';
 
+// Import components from react-bootstrap for layout and styling
+
+// Import Link for navigation and useNavigate for programmatic navigation
+
+// Import React and hooks for component state management
+
+
+// Import Footer, Loader, and Message components
+
+
+
+// Import actions and hooks for Redux and toast notifications
+
+
+
+// Import API slice hook for login mutation
+
+
 const LoginScreen = () => {
+  // State variables for form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Initialize useNavigate hook for navigation
   const navigate = useNavigate();
+  // Initialize useDispatch hook for Redux actions
   const dispatch = useDispatch();
 
+  // Initialize the login mutation hook
   const [login, { isLoading, error }] = useLoginMutation();
 
+  // Handle form submission for user login
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      // Perform login via API and unwrap the result
       const userData = await login({ email, password }).unwrap();
+      // Dispatch the setCredentials action to update the Redux store
       dispatch(setCredentials(userData));
-      toast.success('Logged in successfully!');
-      navigate('/');
+      toast.success('Logged in successfully!'); // Show success message
+      navigate('/'); // Redirect to home page or any other page you want
     } catch (err) {
       console.error(err);
-      toast.error('Login failed. Please check your credentials.');
+      toast.error('Login failed. Please check your credentials.'); // Show error message
     }
   };
 
@@ -46,7 +73,7 @@ const LoginScreen = () => {
   };
 
   const linkRowStyle = {
-    marginTop: '-50px' 
+    marginTop: '-50px' // Adjust margin for the link row
   };
 
   return (
@@ -58,17 +85,17 @@ const LoginScreen = () => {
             {error && <Message variant='danger'>{error?.data?.message || error.error}</Message>}
             {isLoading && <Loader />}
             <Form onSubmit={submitHandler} style={formStyle}>
-              <Form.Group controlId='email'  className='mt-3'>
+              <Form.Group controlId='email' className='mt-3'>
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
-                  type='text' 
+                  type='text'
                   placeholder='Enter email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Group>
 
-              <Form.Group controlId='password'  className='mt-3'>
+              <Form.Group controlId='password' className='mt-3'>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type='password'
@@ -82,7 +109,7 @@ const LoginScreen = () => {
                 Sign In
               </Button>
             </Form>
-            <Row className='py-3 mt-3'   style={linkRowStyle}>
+            <Row className='py-3 mt-3' style={linkRowStyle}>
               <Col>
                 New Customer?{' '}
                 <Link to='/register' style={{ color: 'white', marginTop: '30px' }}>
@@ -98,4 +125,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginScreen; // Export the LoginScreen component as default
