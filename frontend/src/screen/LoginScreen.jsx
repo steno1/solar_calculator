@@ -70,10 +70,11 @@ const LoginScreen = () => {
               <Form.Group controlId='email' className='mt-3'>
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
-                  type='text'
+                  type='email'
                   placeholder='Enter email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -84,6 +85,7 @@ const LoginScreen = () => {
                   placeholder='Enter password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -91,6 +93,7 @@ const LoginScreen = () => {
                 Sign In
               </Button>
             </Form>
+
             <Row className='py-3 mt-3' style={linkRowStyle}>
               <Col>
                 New Customer?{' '}

@@ -12,22 +12,6 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { toast } from 'react-toastify';
 
-// Import components from react-bootstrap for layout and styling
-
-// Import Link for navigation and useNavigate for programmatic navigation
-
-// Import React and hooks for component state management
-
-// Import API slice hooks for login and registration mutations
-
-
-// Import Footer, Loader, and Message components
-
-
-
-// Import toast for notifications
-
-
 const RegisterScreen = () => {
   // State variables for form inputs
   const [name, setName] = useState(''); // Add state for name
@@ -58,7 +42,7 @@ const RegisterScreen = () => {
       navigate('/'); // Redirect to home page or any other page you want
     } catch (err) {
       console.error(err);
-      toast.error('Registration. Please try again.'); // Show error message
+      toast.error('Registration failed. Please try again.'); // Show error message
     }
   };
 
@@ -78,6 +62,7 @@ const RegisterScreen = () => {
                   placeholder='Enter name'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -88,6 +73,7 @@ const RegisterScreen = () => {
                   placeholder='Enter email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -98,6 +84,7 @@ const RegisterScreen = () => {
                   placeholder='Enter password'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -108,6 +95,7 @@ const RegisterScreen = () => {
                   placeholder='Confirm password'
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
                   style={{ marginBottom: '10px' }}
                 />
               </Form.Group>
@@ -116,6 +104,7 @@ const RegisterScreen = () => {
                 Register
               </Button>
             </Form>
+           
             <Row className='py-3'>
               <Col>
                 Have an Account?{' '}
