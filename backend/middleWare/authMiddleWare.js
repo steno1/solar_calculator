@@ -8,12 +8,12 @@ const protect = asyncHandler(async (req, res, next) => {
   // Check for token in cookies
   if (req.cookies && req.cookies.jwt) {
     token = req.cookies.jwt;
-    console.log('JWT Token:', token); // Log the token
+    //console.log('JWT Token:', token); // Log the token
 
     try {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('Decoded Token:', decoded); // Log decoded token info
+      //console.log('Decoded Token:', decoded); // Log decoded token info
 
       // Get user from the token
       req.user = await User.findById(decoded.id).select('-password');
@@ -25,7 +25,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
       next();
     } catch (error) {
-      console.error('Token verification failed:', error); // Log verification error
+     // console.error('Token verification failed:', error); // Log verification error
       res.status(401).json({ message: 'Not authorized, token failed' });
     }
   } else {

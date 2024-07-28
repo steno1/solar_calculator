@@ -15,24 +15,6 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../slices/UserApiSlice';
 
-// Import components from react-bootstrap for layout and styling
-
-// Import Link for navigation and useNavigate for programmatic navigation
-
-// Import React and hooks for component state management
-
-
-// Import Footer, Loader, and Message components
-
-
-
-// Import actions and hooks for Redux and toast notifications
-
-
-
-// Import API slice hook for login mutation
-
-
 const LoginScreen = () => {
   // State variables for form inputs
   const [email, setEmail] = useState('');

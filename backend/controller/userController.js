@@ -20,9 +20,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
   });
 
-  // Debugging logs
-  console.log('New User Created:', user);
-
   if (user) {
     const token = generateToken(user._id);
 
@@ -50,11 +47,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  // Debugging logs
-  console.log('User:', user);
+
   if (user) {
-    console.log('Stored Password Hash:', user.password);
-    console.log('Password Match:', await user.matchPassword(password));
+   // console.log('Stored Password Hash:', user.password);
+    //console.log('Password Match:', await user.matchPassword(password));
   } else {
     console.log('User not found');
   }

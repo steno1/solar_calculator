@@ -7,8 +7,10 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import inverterRoutes from './Routes/inverterRoutes.js'; // Import the inverter routes
-import mongoose from 'mongoose';
 import userRoutes from './Routes/userRoutes.js';
+
+//import mongoose from 'mongoose';
+
 
 // Load environment variables from .env file
 dotenv.config();

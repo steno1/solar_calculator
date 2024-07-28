@@ -54,11 +54,11 @@ const RegisterScreen = () => {
       await registerUser({ name, email, password }).unwrap();
       // Automatically log in the user after successful registration
       await login({ email, password }).unwrap();
-      toast.success('Registration successful! Welcome back!'); // Show success message
+      toast.success('Registration successful!'); // Show success message
       navigate('/'); // Redirect to home page or any other page you want
     } catch (err) {
       console.error(err);
-      toast.error('Registration or login failed. Please try again.'); // Show error message
+      toast.error('Registration. Please try again.'); // Show error message
     }
   };
 

@@ -15,25 +15,6 @@ import { setCredentials } from '../slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-// Import components from react-bootstrap for layout and styling
-
-// Import React and hooks for component state and lifecycle management
-
-// Import ToastContainer and toast for displaying notifications
-
-// Import API slice hooks for user profile queries and mutations
-
-
-// Import Footer, Loader, and Message components
-
-
-
-// Import the setCredentials action from authSlice
-
-// Import useDispatch for dispatching actions and useNavigate for navigation
-
-
-
 const UserProfileScreen = () => {
   // Initialize useNavigate hook for navigation
   const navigate = useNavigate();
