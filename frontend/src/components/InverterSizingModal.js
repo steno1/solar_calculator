@@ -1,9 +1,9 @@
 import { Button, Form, Modal } from 'react-bootstrap'; // Import necessary components from react-bootstrap
-import React, { useState } from 'react'; // Import React
+import React, { useState } from 'react'; // Import React and useState
 
 import Message from '../components/Message'; // Import the Message component for displaying error messages
 
-const InverterSizingModal = ({ 
+const InverterSizingModal = ({
   show, // Prop to control the visibility of the modal
   onHide, // Prop to handle closing the modal
   inverterInput, // Prop for the current state of inverter input fields
@@ -12,17 +12,20 @@ const InverterSizingModal = ({
   inverterErrorState, // Prop for any error state related to inverter sizing
   inverterData // Prop for the calculated inverter data
 }) => {
-  const [validationError, setValidationError] = useState(null);
+  const [validationError, setValidationError] = useState(null); // State for validation errors
 
   const handleValidationAndInverterSizing = () => {
     // Validate that all fields are filled out
     if (!inverterInput.totalEnergyDemand || !inverterInput.apparentPower || !inverterInput.inverterEfficiency) {
       setValidationError('All fields are required.');
-      return;
+      return; // Stop if validation fails
     }
-    setValidationError(null);
-    handleInverterSizing();
+    setValidationError(null); // Clear any existing validation errors
+    console.log('Inverter Input before sizing:', inverterInput); // Log the input values
+    handleInverterSizing(); // Call the function to handle inverter sizing
   };
+
+  console.log('Inverter Data:', inverterData); // Log the inverter data received
 
   return (
     <Modal show={show} onHide={onHide}> {/* Modal component from react-bootstrap, controlled by show and onHide props */}
@@ -41,6 +44,7 @@ const InverterSizingModal = ({
               value={inverterInput.totalEnergyDemand} // Input value from the inverterInput state
               onChange={handleChangeInverterInput} // Change handler
               required // Make this field required
+              style={{ color: 'black' }} // Change input text color to black
             />
           </Form.Group>
           <Form.Group className="mb-3"> {/* Form group for apparent power input */}
@@ -53,6 +57,7 @@ const InverterSizingModal = ({
               value={inverterInput.apparentPower} // Input value from the inverterInput state
               onChange={handleChangeInverterInput} // Change handler
               required // Make this field required
+              style={{ color: 'black' }} // Change input text color to black
             />
           </Form.Group>
           <Form.Group className="mb-3"> {/* Form group for inverter efficiency input */}
@@ -65,17 +70,19 @@ const InverterSizingModal = ({
               value={inverterInput.inverterEfficiency} // Input value from the inverterInput state
               onChange={handleChangeInverterInput} // Change handler
               required // Make this field required
+              style={{ color: 'black' }} // Change input text color to black
             />
           </Form.Group>
         </Form>
-        {validationError && <Message variant="danger" style={{ marginTop: '10px' }}>{validationError}</Message>} {/* Display validation error message if any */}
-        {inverterErrorState && <Message variant="danger">{inverterErrorState}</Message>} {/* Display error message if any */}
-        {inverterData && ( // Display results if inverterData is available
-          <div className="mt-3">
-            <h5>Results:</h5>
-            <p>Required Inverter Capacity: {inverterData.inverterCapacity} VA</p>
+        {validationError && <Message variant="danger">{validationError}</Message>} {/* Display validation errors */}
+        {inverterErrorState && <Message variant="danger">{inverterErrorState}</Message>} {/* Display inverter sizing errors */}
+        {inverterData && ( // If inverterData exists, display the results
+          <div>
+            <h4>Inverter Sizing Result</h4>
+            <p>Inverter Capacity: {inverterData.inverterCapacity} VA</p>
             <p>Inverter Run Time: {inverterData.inverterRunTime} hours</p>
-            <p>Consumer Daily Energy Demand: {inverterData.consumerEnergyDemand} Wh</p>
+            <p>Inverter Standby: {inverterData.inverterStandby} VA</p>
+            <p>Consumer Energy Demand: {inverterData.consumerEnergyDemand} Wh</p>
           </div>
         )}
       </Modal.Body>
@@ -91,4 +98,4 @@ const InverterSizingModal = ({
   );
 };
 
-export default InverterSizingModal; // Export the component as default
+export default InverterSizingModal; // Export the component

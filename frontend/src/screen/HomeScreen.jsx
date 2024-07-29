@@ -1,7 +1,7 @@
-// Import necessary styles and CSS files
+// Import styles and CSS files for the component
 
 import '../styles.css';
-import '../footerFix.css'; // Import custom CSS
+import '../footerFix.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Col, Container, Row } from 'react-bootstrap';
@@ -12,38 +12,69 @@ import FeatureCard from '../components/FeatureCard.js';
 import Footer from '../components/Footer';
 import InverterSizingModal from '../components/InverterSizingModal.js';
 import LoadAnalysisModal from '../components/LoadAnalysisModal.js';
-import { useCalculateInverterSizingMutation } from '../slices/inverterApiSlice'; // Import the custom hook for inverter sizing mutation
-import { useCalculateLoadAnalysisMutation } from '../slices/loadApiSlice'; // Import the custom hook for load analysis mutation
+import PanelSizingModal from '../components/panelSizingModal.js'; // Updated import path
+import { useCalculateInverterSizingMutation } from '../slices/inverterApiSlice';
+import { useCalculateLoadAnalysisMutation } from '../slices/loadApiSlice';
+import { useCalculatePanelSizingMutation } from '../slices/panelApiSlice';
 
-//import Loader from '../components/Loader';
-//import Message from '../components/Message';
+// Import components and libraries from 'react-bootstrap' for layout and styling
 
+// Import icons from 'react-icons/fa' for use in feature cards
+
+// Import React and hooks from React library
+
+
+// Import custom components for feature cards, footer, and modals
+
+
+
+
+
+
+// Import hooks from slices to handle API requests
+
+
+
+
+// Define the HomeScreen component
 const HomeScreen = () => {
-  // State variables for modals
+  // State hooks for managing modal visibility
   const [showLoadAnalysisModal, setShowLoadAnalysisModal] = useState(false);
   const [showInverterSizingModal, setShowInverterSizingModal] = useState(false);
+  const [showPanelSizingModal, setShowPanelSizingModal] = useState(false);
 
-  // Initialize mutations and extract relevant states
+  // Hooks for managing API requests and their states
   const [calculateLoadAnalysis, { data: loadData, isLoading: isLoadLoading, isError: isLoadError, error: loadError }] = useCalculateLoadAnalysisMutation();
   const [calculateInverterSizing, { data: inverterData, isLoading: isInverterLoading, isError: isInverterError, error: inverterError }] = useCalculateInverterSizingMutation();
+  const [calculatePanelSizing, { data: panelData, isLoading: isPanelLoading, isError: isPanelError, error: panelError }] = useCalculatePanelSizingMutation();
 
-  // State variables for appliances and inverter input
+  // State hooks for managing inputs and errors
   const [appliances, setAppliances] = useState([{ name: '', quantity: 1, power: 0, powerFactor: 1, hoursOfUse: 1 }]);
   const [inverterInput, setInverterInput] = useState({ totalEnergyDemand: 0, apparentPower: 0, inverterEfficiency: 0 });
+  const [panelInput, setPanelInput] = useState({
+    dailyEnergyDemand: 0,
+    panelEfficiency: 0,
+    peakSunHours: 0,
+    panelWattage: 0,
+    systemVoltage: 0,
+    panelVoltRating: 0
+  });
 
-  // State variables for error messages
+  // State hooks for managing error messages
   const [loadErrorState, setLoadErrorState] = useState(null);
   const [inverterErrorState, setInverterErrorState] = useState(null);
+  const [panelErrorState, setPanelErrorState] = useState(null);
 
-  // Effect to reset error messages when opening modals
+  // Effect hook to reset error states when any modal is shown
   useEffect(() => {
-    if (showLoadAnalysisModal || showInverterSizingModal) {
+    if (showLoadAnalysisModal || showInverterSizingModal || showPanelSizingModal) {
       setLoadErrorState(null);
       setInverterErrorState(null);
+      setPanelErrorState(null);
     }
-  }, [showLoadAnalysisModal, showInverterSizingModal]);
+  }, [showLoadAnalysisModal, showInverterSizingModal, showPanelSizingModal]);
 
-  // Handler to update appliance state
+  // Handlers for changing appliance details
   const handleChangeAppliance = (index, event) => {
     const { name, value } = event.target;
     const updatedAppliances = [...appliances];
@@ -62,7 +93,7 @@ const HomeScreen = () => {
     setAppliances(updatedAppliances);
   };
 
-  // Handler to perform load analysis
+  // Function to handle load analysis
   const handleLoadAnalysis = async () => {
     try {
       await calculateLoadAnalysis({ appliances });
@@ -71,7 +102,7 @@ const HomeScreen = () => {
     }
   };
 
-  // Handler to update inverter input state
+  // Handlers for inverter sizing inputs
   const handleChangeInverterInput = (event) => {
     const { name, value } = event.target;
     setInverterInput((prevInput) => ({
@@ -80,7 +111,7 @@ const HomeScreen = () => {
     }));
   };
 
-  // Handler to perform inverter sizing
+  // Function to handle inverter sizing calculation
   const handleInverterSizing = async () => {
     try {
       await calculateInverterSizing(inverterInput);
@@ -89,11 +120,31 @@ const HomeScreen = () => {
     }
   };
 
+  // Handlers for panel sizing inputs
+  const handleChangePanelInput = (event) => {
+    const { name, value } = event.target;
+    setPanelInput((prevInput) => ({
+      ...prevInput,
+      [name]: value,
+    }));
+  };
+
+  // Function to handle panel sizing calculation
+  const handlePanelSizing = async () => {
+    try {
+      await calculatePanelSizing(panelInput);
+    } catch (error) {
+      setPanelErrorState(error.message);
+    }
+  };
+
   return (
     <div>
+      {/* Main container for the HomeScreen layout */}
       <Container className="my-5">
         <h1 className="text-center" style={{ color: 'white' }}>Solar PV System Sizing Calculator</h1>
         <Row>
+          {/* Feature card for Load Analysis */}
           <Col md={6} lg={4} className="my-3">
             <FeatureCard
               title="Load Analysis"
@@ -104,13 +155,18 @@ const HomeScreen = () => {
               error={loadError}
             />
           </Col>
+          {/* Feature card for Panel Sizing */}
           <Col md={6} lg={4} className="my-3">
             <FeatureCard
               title="Panel Sizing"
               icon={<FaSolarPanel />}
-              onClick={() => console.log('Panel Sizing')}
+              onClick={() => setShowPanelSizingModal(true)}
+              isLoading={isPanelLoading}
+              isError={isPanelError}
+              error={panelError}
             />
           </Col>
+          {/* Feature card for Inverter Sizing */}
           <Col md={6} lg={4} className="my-3">
             <FeatureCard
               title="Inverter Sizing"
@@ -121,6 +177,7 @@ const HomeScreen = () => {
               error={inverterError}
             />
           </Col>
+          {/* Placeholder cards for Battery Sizing and Charge Controller Sizing */}
           <Col md={6} lg={4} className="my-3">
             <FeatureCard
               title="Battery Sizing"
@@ -137,8 +194,10 @@ const HomeScreen = () => {
           </Col>
         </Row>
       </Container>
+      {/* Footer component */}
       <Footer />
 
+      {/* Modals for Load Analysis, Inverter Sizing, and Panel Sizing */}
       <LoadAnalysisModal
         show={showLoadAnalysisModal}
         onHide={() => setShowLoadAnalysisModal(false)}
@@ -160,8 +219,19 @@ const HomeScreen = () => {
         inverterErrorState={inverterErrorState}
         inverterData={inverterData}
       />
+
+      <PanelSizingModal
+        show={showPanelSizingModal}
+        onHide={() => setShowPanelSizingModal(false)}
+        panelInput={panelInput}
+        handleChangePanelInput={handleChangePanelInput}
+        handlePanelSizing={handlePanelSizing}
+        panelErrorState={panelErrorState}
+        panelData={panelData}
+      />
     </div>
   );
 };
 
-export default HomeScreen; // Export the HomeScreen component as default
+// Export the HomeScreen component for use in other parts of the application
+export default HomeScreen;

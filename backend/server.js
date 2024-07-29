@@ -1,48 +1,36 @@
-import { errorHandler, notFound } from './middleWare/errorMiddleWare.js';
+import { errorHandler, notFound } from './middleWare/errorMiddleWare.js'; // Import error handling middleware
 
-import LoadRoutes from './Routes/LoadRoutes.js';
-import authRoutes from './Routes/authRoutes.js';
-import connectDB from './config/db.js'; // Ensure this path is correct
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-import express from 'express';
-import inverterRoutes from './Routes/inverterRoutes.js'; // Import the inverter routes
-import userRoutes from './Routes/userRoutes.js';
+import LoadRoutes from './Routes/LoadRoutes.js'; // Import Load routes
+import authRoutes from './Routes/authRoutes.js'; // Import authentication routes
+import connectDB from './config/db.js'; // Import database connection function
+import cookieParser from 'cookie-parser'; // Import cookie-parser middleware
+import dotenv from 'dotenv'; // Import dotenv for environment variables
+import express from 'express'; // Import express
+import inverterRoutes from './Routes/inverterRoutes.js'; // Import Inverter routes
+import panelRoutes from './Routes/panelRoutes.js'; // Import Panel routes
+import userRoutes from './Routes/userRoutes.js'; // Import User routes
 
-//import mongoose from 'mongoose';
+dotenv.config(); // Load environment variables from .env file
+connectDB(); // Connect to MongoDB
 
-
-// Load environment variables from .env file
-dotenv.config();
-
-// Connect to MongoDB
-connectDB();
-
-const app = express();
+const app = express(); // Create an express application
 
 app.use(express.json()); // Middleware to parse JSON bodies
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+app.use(cookieParser()); // Middleware to parse cookies
 
-// Middleware for parsing cookies
-app.use(cookieParser());
+// Mount the routes
+app.use('/api/auth', authRoutes); // Authentication routes
+app.use('/api/users', userRoutes); // User management routes
+app.use('/api/loads', LoadRoutes); // Load analysis routes
+app.use('/api/inverter', inverterRoutes); // Inverter sizing routes
+app.use('/api/panel', panelRoutes); // Panel sizing routes
 
-// Mount the authentication routes
-app.use('/api/auth', authRoutes);
+app.use(notFound); // Handle 404 errors
+app.use(errorHandler); // Handle other errors
 
-// Mount the user management routes
-app.use('/api/users', userRoutes);
-
-// Mount the load analysis routes
-app.use('/api/loads', LoadRoutes);
-
-// Mount the inverter sizing routes
-app.use('/api/inverter', inverterRoutes);
-
-app.use(notFound);
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // Set the port
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`); // Start the server
 });

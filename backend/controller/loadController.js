@@ -16,14 +16,20 @@ const calculateLoadAnalysis = asyncHandler(async (req, res) => {
   appliances.forEach(appliance => {
     const { quantity, power, powerFactor, hoursOfUse } = appliance;
 
+    // Ensure no division by zero and valid numbers
+    const validPowerFactor = powerFactor !== 0 ? powerFactor : 1; // Avoid division by zero
+    const validPower = Number(power) || 0; // Default to 0 if power is invalid
+    const validQuantity = Number(quantity) || 0; // Default to 0 if quantity is invalid
+    const validHoursOfUse = Number(hoursOfUse) || 0; // Default to 0 if hoursOfUse is invalid
+
     // Total Power for each appliance
-    const totalPower = quantity * power;
+    const totalPower = validQuantity * validPower;
 
     // Apparent Power for each appliance
-    const apparentPower = totalPower / powerFactor;
+    const apparentPower = validPowerFactor !== 0 ? totalPower / validPowerFactor : 0;
 
     // Energy Demand for each appliance
-    const energyDemand = apparentPower * hoursOfUse;
+    const energyDemand = apparentPower * validHoursOfUse;
 
     totalApparentPower += apparentPower;
     totalEnergyDemand += energyDemand;
@@ -41,7 +47,6 @@ const calculateLoadAnalysis = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-   
     totalApparentPower,
     totalEnergyDemand
   });

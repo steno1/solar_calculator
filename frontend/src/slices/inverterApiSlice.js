@@ -1,5 +1,3 @@
-// Import necessary constants and the base API slice
-
 import { INVERTER_SIZING_URL } from '../constant';
 import apiSlice from './apiSlice';
 

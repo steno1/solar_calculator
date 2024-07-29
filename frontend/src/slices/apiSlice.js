@@ -1,32 +1,24 @@
-// apislice.js
-
-// Import necessary functions from @reduxjs/toolkit/query/react
+// apiSlice.js
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { Base_url } from '../constant';
 
-// Import the base URL constant
-
-
-// Create a base query with fetchBaseQuery function
 const baseQuery = fetchBaseQuery({
-  baseUrl: Base_url, // Set the base URL for API requests
+  baseUrl: Base_url,
   prepareHeaders: (headers, { getState }) => {
-    const { userInfo } = getState().auth; // Get the user information from the state
+    const { userInfo } = getState().auth;
     if (userInfo && userInfo.token) {
-      headers.set('Authorization', `Bearer ${userInfo.token}`); // Set the Authorization header with the token
+      headers.set('Authorization', `Bearer ${userInfo.token}`);
     }
-    return headers; // Return the modified headers
+    return headers;
   },
 });
 
-// Create an API slice using createApi function
 export const apiSlice = createApi({
-  baseQuery, // Use the base query defined above
-  tagTypes: ['User', 'LoadAnalysis', 'Inverter'], // Define tag types for cache invalidation and refetching
-  endpoints: (builder) => ({}), // Define endpoints (initially empty)
+  baseQuery,
+  tagTypes: ['User', 'LoadAnalysis', 'Inverter', 'Panel'], // Add 'Panel' here
+  endpoints: (builder) => ({}),
 });
 
-// Export the apiSlice as default
 export default apiSlice;

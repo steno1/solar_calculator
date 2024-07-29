@@ -17,10 +17,18 @@ const LoadAnalysisModal = ({
   const [validationError, setValidationError] = useState(null);
 
   const handleValidationAndLoadAnalysis = () => {
-    // Validate that all fields are filled out
+    // Validate that all fields are filled out and have valid numbers
     for (let appliance of appliances) {
       if (!appliance.name || !appliance.quantity || !appliance.power || !appliance.powerFactor || !appliance.hoursOfUse) {
         setValidationError('All fields are required.');
+        return;
+      }
+      if (isNaN(appliance.quantity) || isNaN(appliance.power) || isNaN(appliance.powerFactor) || isNaN(appliance.hoursOfUse)) {
+        setValidationError('All fields must be valid numbers.');
+        return;
+      }
+      if (appliance.powerFactor <= 0) {
+        setValidationError('Power Factor must be greater than zero.');
         return;
       }
     }
@@ -63,6 +71,7 @@ const LoadAnalysisModal = ({
                       value={appliance.quantity} // Input value from the appliance state
                       onChange={(event) => handleChangeAppliance(index, event)} // Change handler
                       required // Make this field required
+                      min="0" // Ensure positive values
                     />
                   </Form.Group>
                 </Col>
@@ -79,6 +88,7 @@ const LoadAnalysisModal = ({
                       value={appliance.power} // Input value from the appliance state
                       onChange={(event) => handleChangeAppliance(index, event)} // Change handler
                       required // Make this field required
+                      min="0" // Ensure positive values
                     />
                   </Form.Group>
                 </Col>
@@ -93,6 +103,8 @@ const LoadAnalysisModal = ({
                       value={appliance.powerFactor} // Input value from the appliance state
                       onChange={(event) => handleChangeAppliance(index, event)} // Change handler
                       required // Make this field required
+                      min="0" // Ensure positive values
+                      step="0.01" // Allow decimal values
                     />
                   </Form.Group>
                 </Col>
@@ -109,6 +121,7 @@ const LoadAnalysisModal = ({
                       value={appliance.hoursOfUse} // Input value from the appliance state
                       onChange={(event) => handleChangeAppliance(index, event)} // Change handler
                       required // Make this field required
+                      min="0" // Ensure positive values
                     />
                   </Form.Group>
                 </Col>
