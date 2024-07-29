@@ -2,6 +2,7 @@ import { errorHandler, notFound } from './middleWare/errorMiddleWare.js'; // Imp
 
 import LoadRoutes from './Routes/LoadRoutes.js'; // Import Load routes
 import authRoutes from './Routes/authRoutes.js'; // Import authentication routes
+import  batteryRoutes from './Routes/batteryRoutes.js';
 import connectDB from './config/db.js'; // Import database connection function
 import cookieParser from 'cookie-parser'; // Import cookie-parser middleware
 import dotenv from 'dotenv'; // Import dotenv for environment variables
@@ -25,7 +26,7 @@ app.use('/api/users', userRoutes); // User management routes
 app.use('/api/loads', LoadRoutes); // Load analysis routes
 app.use('/api/inverter', inverterRoutes); // Inverter sizing routes
 app.use('/api/panel', panelRoutes); // Panel sizing routes
-
+app.use('/api/battery', batteryRoutes); // Use battery routes
 app.use(notFound); // Handle 404 errors
 app.use(errorHandler); // Handle other errors
 
