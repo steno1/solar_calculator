@@ -1,4 +1,5 @@
-export const Base_url = "" // Define the base URL for your API
+// constant.js
+export const Base_url = ""; // Define the base URL for your API
 
 // API endpoints for the Solar PV app
 export const PANEL_SIZING_URL = '/api/panel'; // Endpoint for panel sizing
@@ -7,3 +8,4 @@ export const USER_URL = '/api/users'; // Endpoint for user management
 export const AUTH_URL = '/api/auth'; // Endpoint for authentication
 export const INVERTER_SIZING_URL = '/api/inverter'; // Endpoint for inverter sizing
 export const BATTERY_SIZING_URL = '/api/battery'; // Endpoint for battery sizing
+export const CHARGE_CONTROLLER_SIZING_URL = '/api/charge-controller'; // Endpoint for charge controller sizing

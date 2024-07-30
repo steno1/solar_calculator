@@ -21,11 +21,11 @@ const InverterSizingModal = ({
       return; // Stop if validation fails
     }
     setValidationError(null); // Clear any existing validation errors
-    console.log('Inverter Input before sizing:', inverterInput); // Log the input values
+  //  console.log('Inverter Input before sizing:', inverterInput); // Log the input values
     handleInverterSizing(); // Call the function to handle inverter sizing
   };
 
-  console.log('Inverter Data:', inverterData); // Log the inverter data received
+ // console.log('Inverter Data:', inverterData); // Log the inverter data received
 
   return (
     <Modal show={show} onHide={onHide}> {/* Modal component from react-bootstrap, controlled by show and onHide props */}

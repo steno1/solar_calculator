@@ -7,6 +7,7 @@ import { FaBatteryHalf, FaBolt, FaChargingStation, FaCogs, FaSolarPanel } from '
 import React, { useEffect, useState } from 'react';
 
 import BatterySizingModal from '../components/batteryModal.js';
+import ChargeControllerSizingModal from '../components/chargeControllerModal.js';
 import FeatureCard from '../components/FeatureCard.js';
 import Footer from '../components/Footer';
 import InverterSizingModal from '../components/InverterSizingModal.js';
@@ -22,6 +23,7 @@ const HomeScreen = () => {
   const [showInverterSizingModal, setShowInverterSizingModal] = useState(false);
   const [showPanelSizingModal, setShowPanelSizingModal] = useState(false);
   const [showBatterySizingModal, setShowBatterySizingModal] = useState(false);
+  const [showChargeControllerSizingModal, setShowChargeControllerSizingModal] = useState(false); // Add state for Charge Controller Sizing Modal
 
   const [calculateLoadAnalysis, { data: loadData, isLoading: isLoadLoading, isError: isLoadError, error: loadError }] = useCalculateLoadAnalysisMutation();
   const [calculateInverterSizing, { data: inverterData, isLoading: isInverterLoading, isError: isInverterError, error: inverterError }] = useCalculateInverterSizingMutation();
@@ -52,13 +54,13 @@ const HomeScreen = () => {
   const [batteryErrorState, setBatteryErrorState] = useState(null);
 
   useEffect(() => {
-    if (showLoadAnalysisModal || showInverterSizingModal || showPanelSizingModal || showBatterySizingModal) {
+    if (showLoadAnalysisModal || showInverterSizingModal || showPanelSizingModal || showBatterySizingModal || showChargeControllerSizingModal) { // Include showChargeControllerSizingModal
       setLoadErrorState(null);
       setInverterErrorState(null);
       setPanelErrorState(null);
       setBatteryErrorState(null);
     }
-  }, [showLoadAnalysisModal, showInverterSizingModal, showPanelSizingModal, showBatterySizingModal]);
+  }, [showLoadAnalysisModal, showInverterSizingModal, showPanelSizingModal, showBatterySizingModal, showChargeControllerSizingModal]); // Include showChargeControllerSizingModal
 
   const handleChangeAppliance = (index, event) => {
     const { name, value } = event.target;
@@ -181,7 +183,10 @@ const HomeScreen = () => {
             <FeatureCard
               title="Charge Controller Sizing"
               icon={<FaBolt />}
-              onClick={() => console.log('Charge Controller Sizing')}
+              onClick={() => setShowChargeControllerSizingModal(true)} // Update onClick to show the modal
+              isLoading={false} // Assuming no loading state for Charge Controller Sizing
+              isError={false} // Assuming no error state for Charge Controller Sizing
+              error={null} // Assuming no error message for Charge Controller Sizing
             />
           </Col>
         </Row>
@@ -223,10 +228,17 @@ const HomeScreen = () => {
       <BatterySizingModal
         show={showBatterySizingModal}
         onHide={() => setShowBatterySizingModal(false)}
-        handleChangeBatteryInput={handleChangeBatteryInput} // Add this handler
+        batteryInput={batteryInput}
+        handleChangeBatteryInput={handleChangeBatteryInput}
         handleBatterySizing={handleBatterySizing}
         batteryErrorState={batteryErrorState}
         batteryData={batteryData}
+      />
+
+      <ChargeControllerSizingModal // Add the Charge Controller Sizing Modal
+        show={showChargeControllerSizingModal}
+        onHide={() => setShowChargeControllerSizingModal(false)}
+        // Add props specific to Charge Controller Sizing Modal
       />
     </div>
   );

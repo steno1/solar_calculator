@@ -1,6 +1,9 @@
+// store.js
+
 import apiSlice from './slices/apiSlice'; // Import the API slice for handling API interactions
 import authReducer from './slices/authSlice'; // Import the authentication slice for handling user authentication
 import { batteryApiSlice } from './slices/batteryApiSlice'; // Import the battery API slice for handling battery sizing API interactions
+import { chargeControllerApiSlice } from './slices/chargeControllerApiSlice'; // Import the charge controller API slice for handling charge controller sizing API interactions
 import { configureStore } from '@reduxjs/toolkit'; // Import configureStore from Redux Toolkit for creating the Redux store
 import { inverterApiSlice } from './slices/inverterApiSlice'; // Import the inverter API slice for handling inverter sizing API interactions
 import { loadApiSlice } from './slices/loadApiSlice'; // Import the load API slice for handling load analysis API interactions
@@ -14,10 +17,15 @@ export const store = configureStore({
     inverterSizing: inverterApiSlice.reducer, // Add the inverterApiSlice reducer to handle inverter sizing state
     panelSizing: panelApiSlice.reducer, // Add the panelApiSlice reducer to handle panel sizing state
     batterySizing: batteryApiSlice.reducer, // Add the batteryApiSlice reducer to handle battery sizing state
+    chargeControllerSizing: chargeControllerApiSlice.reducer, // Add the chargeControllerApiSlice reducer to handle charge controller sizing state
     auth: authReducer, // Add the authReducer to handle authentication state
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware, batteryApiSlice.middleware), // Add default middleware and concatenate with apiSlice and batteryApiSlice middleware for handling API calls
+    getDefaultMiddleware().concat(
+      apiSlice.middleware,
+      batteryApiSlice.middleware,
+      chargeControllerApiSlice.middleware // Add chargeControllerApiSlice middleware for handling API calls
+    ),
 });
 
 export default store;
