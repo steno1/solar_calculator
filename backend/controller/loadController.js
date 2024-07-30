@@ -1,4 +1,4 @@
-import LoadAnalysis from '../model/loadAnalysis.js';
+import LoadAnalysis from '../model/LoadAnalysis.js';
 import asyncHandler from 'express-async-handler';
 
 // Calculate Load Analysis
