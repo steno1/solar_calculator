@@ -1,11 +1,10 @@
-// chargeControllerApiSlice.js
-
-import { CHARGE_CONTROLLER_SIZING_URL } from '../constant';
-import { apiSlice } from './apiSlice';
+import { CHARGE_CONTROLLER_SIZING_URL } from '../constant'; // Correct path to your constants file
+import { apiSlice } from './apiSlice'; // Import the base API slice for extending endpoints
 
 // Extend the base API slice to include charge controller sizing endpoints
 export const chargeControllerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // Define a mutation for calculating charge controller sizing
     calculateChargeController: builder.mutation({
       query: (chargeControllerInput) => ({
         url: `${CHARGE_CONTROLLER_SIZING_URL}/calculate`, // API endpoint for calculating charge controller sizing
@@ -17,4 +16,5 @@ export const chargeControllerApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCalculateChargeControllerMutation } = chargeControllerApiSlice; // Export the hook for the mutation
+// Export the hook for using the mutation in components
+export const { useCalculateChargeControllerMutation } = chargeControllerApiSlice;

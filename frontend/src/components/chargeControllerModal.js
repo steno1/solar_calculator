@@ -21,12 +21,21 @@ const ChargeControllerSizingModal = ({ show, onHide }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    // Validate input fields
     if (Object.values(chargeControllerInput).some(value => value === '')) {
       alert('Please fill in all fields.');
       return;
     }
+
+    // Convert inputs to numbers
+    const payload = {
+      numberOfPanelsInParallel: Number(chargeControllerInput.numberOfPanelsInParallel),
+      isc: Number(chargeControllerInput.shortCircuitCurrent)
+    };
+
     try {
-      await calculateChargeControllerSizing(chargeControllerInput);
+      await calculateChargeControllerSizing(payload).unwrap(); // Ensure proper error handling with unwrap
     } catch (error) {
       console.error('Error calculating charge controller sizing:', error);
     }
@@ -47,6 +56,8 @@ const ChargeControllerSizingModal = ({ show, onHide }) => {
               value={chargeControllerInput.numberOfPanelsInParallel}
               onChange={handleChange}
               required
+              min="1"
+              step="1"
             />
           </Form.Group>
           <Form.Group controlId="shortCircuitCurrent">
@@ -57,6 +68,8 @@ const ChargeControllerSizingModal = ({ show, onHide }) => {
               value={chargeControllerInput.shortCircuitCurrent}
               onChange={handleChange}
               required
+              min="0.01"
+              step="0.01"
             />
           </Form.Group>
           <div className="mt-3">
@@ -68,11 +81,15 @@ const ChargeControllerSizingModal = ({ show, onHide }) => {
             </Button>
           </div>
         </Form>
-        {isChargeControllerError && <div className="text-danger mt-3">{chargeControllerError.message}</div>}
+        {isChargeControllerError && (
+          <div className="text-danger mt-3">
+            {chargeControllerError.data?.message || 'An error occurred. Please try again.'}
+          </div>
+        )}
         {chargeControllerData && (
           <div className="mt-3">
             <h5>Charge Controller Sizing Results</h5>
-            <p style={{ fontSize: '0.9rem' }}>Maximum Current (Imax): {chargeControllerData.maximumCurrent} A</p>
+            <p style={{ fontSize: '0.9rem' }}>Maximum Current (Imax): {chargeControllerData.Imax} A</p>
             <p style={{ fontSize: '0.9rem' }}>Charge Controller Capacity: {chargeControllerData.chargeControllerCapacity} A</p>
           </div>
         )}
