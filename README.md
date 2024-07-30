@@ -1,4 +1,4 @@
-Solar PV System Sizing Calculator
+                                                    SOLAR PV SYSTEM SIZING CALCULATOR
 Overview
 
 Solar PV System Sizing Calculator is a web application designed to provide accurate solar PV system sizing calculations. Built using the MERN stack, this application enables users to calculate the optimal size of various solar components including panels, inverters, batteries, and charge controllers. The application features mobile responsiveness, robust error handling, and a clean user interface using React Bootstrap and custom CSS.
@@ -74,7 +74,7 @@ Installation and Setup
 
     Clone the Repository
 
-    bash
+
 
 git clone <repository-url>
 cd <repository-directory>
@@ -83,7 +83,7 @@ Backend Setup
 
     Navigate to the backend directory and install dependencies:
 
-    bash
+    
 
 cd backend
 npm install
@@ -92,7 +92,7 @@ Create a .env file and add your environment variables (e.g., MongoDB connection 
 
 Start the backend server:
 
-bash
+
 
     npm start
 
@@ -100,14 +100,14 @@ Frontend Setup
 
     Navigate to the frontend directory and install dependencies:
 
-    bash
+    
 
 cd frontend
 npm install
 
 Start the React development server:
 
-bash
+
 
         npm start
 
